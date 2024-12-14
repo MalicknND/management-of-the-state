@@ -1,18 +1,29 @@
+import { useState } from "react";
 import "./App.css";
-import { COLORS } from "./colors";
+import { COLORS } from "./constants/colors";
 
 function App() {
+  const [theme, setTheme] = useState({
+    backgroundColor: COLORS.gradientOne.color,
+    backgroundImage: COLORS.gradientOne.image,
+  });
+
   return (
-    <div
-      style={{ backgroundImage: COLORS.gradientOne.image, height: "100dvh" }}
-    >
+    <div style={{ ...theme, height: "100dvh" }}>
       {/* Headerrr */}
       <div className="container py-3">
         <header className="bg-white d-flex justify-content-between align-items-center rounded p-3">
           <h1 className="fs-5 fw-normal">Notes</h1>
           <div className="d-flex gap-2">
             <span
+              onClick={() => {
+                setTheme({
+                  backgroundColor: COLORS.gradientOne.color,
+                  backgroundImage: COLORS.gradientOne.image,
+                });
+              }}
               style={{
+                cursor: "pointer",
                 display: "inline-block",
                 width: 25,
                 height: 25,
@@ -22,7 +33,14 @@ function App() {
               }}
             ></span>
             <span
+              onClick={() => {
+                setTheme({
+                  backgroundColor: COLORS.gradientTwo.color,
+                  backgroundImage: COLORS.gradientTwo.image,
+                });
+              }}
               style={{
+                cursor: "pointer",
                 display: "inline-block",
                 width: 25,
                 height: 25,
@@ -32,7 +50,14 @@ function App() {
               }}
             ></span>
             <span
+              onClick={() => {
+                setTheme({
+                  backgroundColor: COLORS.gradientThree.color,
+                  backgroundImage: COLORS.gradientThree.image,
+                });
+              }}
               style={{
+                cursor: "pointer",
                 display: "inline-block",
                 width: 25,
                 height: 25,
@@ -42,7 +67,14 @@ function App() {
               }}
             ></span>
             <span
+              onClick={() => {
+                setTheme({
+                  backgroundColor: COLORS.gradientFour.color,
+                  backgroundImage: COLORS.gradientFour.image,
+                });
+              }}
               style={{
+                cursor: "pointer",
                 display: "inline-block",
                 width: 25,
                 height: 25,
@@ -52,7 +84,14 @@ function App() {
               }}
             ></span>
             <span
+              onClick={() => {
+                setTheme({
+                  backgroundColor: COLORS.gradientFive.color,
+                  backgroundImage: COLORS.gradientFive.image,
+                });
+              }}
               style={{
+                cursor: "pointer",
                 display: "inline-block",
                 width: 25,
                 height: 25,
@@ -62,7 +101,14 @@ function App() {
               }}
             ></span>
             <span
+              onClick={() => {
+                setTheme({
+                  backgroundColor: COLORS.gradientSix.color,
+                  backgroundImage: COLORS.gradientSix.image,
+                });
+              }}
               style={{
+                cursor: "pointer",
                 display: "inline-block",
                 width: 25,
                 height: 25,
