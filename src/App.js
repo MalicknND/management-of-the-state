@@ -8,6 +8,19 @@ function App() {
     backgroundImage: COLORS.gradientOne.image,
   });
 
+  const [noteInput, setNoteInput] = useState("test-note");
+  const [notes, setNotes] = useState([
+    { title: "test-note", date: Date.now() },
+    { title: "test note 2", date: Date.now() },
+  ]);
+
+  const addNote = (e) => {
+    e.preventDefault();
+    let newNote = { title: noteInput, date: Date.now() };
+    setNotes([...notes, newNote]);
+    setNoteInput("");
+  };
+
   return (
     <div style={{ ...theme, height: "100dvh" }}>
       {/* Headerrr */}
@@ -122,14 +135,18 @@ function App() {
         {/* noteForm  */}
         <div style={{ marginTop: "100px" }}>
           <form className="py-4 px-3 bg-white rounded">
-            <div className="d-flex gap">
+            <div className="d-flex gap-2">
               <input
+                value={noteInput}
+                onChange={(e) => setNoteInput(e.target.value)}
                 type="text"
                 className="form-control"
                 placeholder="Add note"
                 aria-label="note"
               />
-              <button className="btn btn-success">Add</button>
+              <button onClick={addNote} className="btn btn-success">
+                Add
+              </button>
             </div>
           </form>
         </div>
@@ -161,18 +178,28 @@ function App() {
 
           {/* notelists */}
           <div className="mt-3 d-flex flex-wrap gap-2">
-            <div
-              className="d-flex p-3 rounded border-5 border-start border-primary"
-              style={{ height: 100, minWidth: 300, backgroundColor: "#dfdfdf" }}
-            >
-              <div>
-                <p className="m-0 fw-normal">Note title</p>
-                <span className="fw-light" style={{ fontSize: 12 }}>
-                  {" "}
-                  12/12/2024 10 : 12
-                </span>
-              </div>
-            </div>
+            {notes.map((note, index) => {
+              console.log(note);
+              return (
+                <div
+                  key={index}
+                  className="d-flex p-3 rounded border-5 border-start border-primary"
+                  style={{
+                    height: 100,
+                    minWidth: 300,
+                    backgroundColor: "#dfdfdf",
+                  }}
+                >
+                  <div>
+                    <p className="m-0 fw-normal">{note.title}</p>
+                    <span className="fw-light" style={{ fontSize: 12 }}>
+                      {" "}
+                      12/12/2024 10 : 12
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </footer>
       </div>
