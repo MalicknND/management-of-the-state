@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { MdOutlineModeEdit } from "react-icons/md";
+
 import "./App.css";
 import { COLORS } from "./constants/colors";
 
@@ -8,17 +10,37 @@ function App() {
     backgroundImage: COLORS.gradientOne.image,
   });
 
-  const [noteInput, setNoteInput] = useState("test-note");
-  const [notes, setNotes] = useState([
-    { title: "test-note", date: Date.now() },
-    { title: "test note 2", date: Date.now() },
-  ]);
+  const [notes, setNotes] = useState([]);
+  const [noteInput, setNoteInput] = useState("");
+  const [selectedNoteId, setSelectedNoteId] = useState(null);
 
   const addNote = (e) => {
     e.preventDefault();
-    let newNote = { title: noteInput, date: Date.now() };
+    let newNote = {
+      id: Math.floor(Math.random() * 1000),
+      title: noteInput,
+      date: Date.now(),
+    };
     setNotes([...notes, newNote]);
     setNoteInput("");
+  };
+
+  const editNote = (e) => {
+    e.preventDefault();
+    // on copie le tableau
+    const notesCopy = [...notes];
+    // on cherche la note à modifier
+    const note = notes.find((note) => note.id === selectedNoteId.id);
+    // on récupère l'index de la note
+    const noteIndex = notes.findIndex((note) => note.id === selectedNoteId.id);
+    // on modifie la note
+    let newNote = { ...note, title: noteInput };
+    // on remplace l'ancienne note par la nouvelle
+    notesCopy[noteIndex] = newNote;
+    // on met à jour le state
+    setNotes(notesCopy);
+    setNoteInput("");
+    setSelectedNoteId(null);
   };
 
   return (
@@ -144,9 +166,15 @@ function App() {
                 placeholder="Add note"
                 aria-label="note"
               />
-              <button onClick={addNote} className="btn btn-success">
-                Add
-              </button>
+              {selectedNoteId ? (
+                <button onClick={editNote} className="btn btn-warning">
+                  Update
+                </button>
+              ) : (
+                <button onClick={addNote} className="btn btn-success">
+                  Add
+                </button>
+              )}
             </div>
           </form>
         </div>
@@ -183,18 +211,28 @@ function App() {
               return (
                 <div
                   key={index}
-                  className="d-flex p-3 rounded border-5 border-start border-primary"
+                  className="p-3 rounded border-5 border-start border-primary"
                   style={{
                     height: 100,
                     minWidth: 300,
                     backgroundColor: "#dfdfdf",
                   }}
                 >
+                  <div className="d-flex justify-content-end ">
+                    <MdOutlineModeEdit
+                      onClick={() => {
+                        setNoteInput(note.title);
+                        setSelectedNoteId(note);
+                      }}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </div>
                   <div>
                     <p className="m-0 fw-normal">{note.title}</p>
                     <span className="fw-light" style={{ fontSize: 12 }}>
                       {" "}
-                      12/12/2024 10 : 12
+                      {new Date(note.date).toLocaleDateString()}{" "}
+                      {new Date(note.date).toLocaleTimeString()}
                     </span>
                   </div>
                 </div>
