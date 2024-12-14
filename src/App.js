@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { MdOutlineModeEdit } from "react-icons/md";
+import { FaRegTrashCan } from "react-icons/fa6";
 
 import "./App.css";
 import { COLORS } from "./constants/colors";
@@ -41,6 +42,17 @@ function App() {
     setNotes(notesCopy);
     setNoteInput("");
     setSelectedNoteId(null);
+  };
+
+  // delete note
+  const deleteNote = (id) => {
+    const newNotes = notes.filter((note) => note.id !== id);
+    setNotes(newNotes);
+  };
+
+  // Clear all notes
+  const clearAll = () => {
+    setNotes([]);
   };
 
   return (
@@ -198,16 +210,17 @@ function App() {
                   textAlign: "center",
                 }}
               >
-                3
+                {notes.length}
               </span>
             </div>
-            <button className="btn btn-primary">Clear All</button>
+            <button onClick={clearAll} className="btn btn-primary">
+              Clear All
+            </button>
           </div>
 
           {/* notelists */}
           <div className="mt-3 d-flex flex-wrap gap-2">
             {notes.map((note, index) => {
-              console.log(note);
               return (
                 <div
                   key={index}
@@ -218,13 +231,17 @@ function App() {
                     backgroundColor: "#dfdfdf",
                   }}
                 >
-                  <div className="d-flex justify-content-end ">
+                  <div className="d-flex justify-content-end gap-2">
                     <MdOutlineModeEdit
                       onClick={() => {
                         setNoteInput(note.title);
                         setSelectedNoteId(note);
                       }}
                       style={{ cursor: "pointer" }}
+                    />
+                    <FaRegTrashCan
+                      onClick={() => deleteNote(note.id)}
+                      style={{ cursor: "pointer", color: "red" }}
                     />
                   </div>
                   <div>
