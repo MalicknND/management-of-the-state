@@ -1,78 +1,71 @@
-import { useReducer } from "react";
+import { useState } from "react";
 
 import { COLORS } from "./constants/colors";
 import Header from "./components/Header/Header";
 import NoteForm from "./components/NoteForm";
 import NotesContainer from "./components/NotesContainer/NotesContainer";
-import { reducer } from "./reducer";
-
-// initial state
-const initialState = {
-  theme: {
-    backgroundColor: COLORS.gradientOne.color,
-    backgroundImage: COLORS.gradientOne.image,
-  },
-  noteInput: "",
-  notes: [],
-  selectedNoteId: null,
-};
 
 function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  console.log(state);
+  const [theme, setTheme] = useState({
+    backgroundColor: COLORS.gradientOne.color,
+    backgroundImage: COLORS.gradientOne.image,
+  });
 
-  // CRUD Notes
+  const [notes, setNotes] = useState([]);
+  const [noteInput, setNoteInput] = useState("");
+  const [selectedNoteId, setSelectedNoteId] = useState(null);
+
   const addNote = (e) => {
     e.preventDefault();
     let newNote = {
       id: Math.floor(Math.random() * 1000),
-      title: state.noteInput,
+      title: noteInput,
       date: Date.now(),
     };
-    // ajouter la note au tableau
-    dispatch({ type: "addNote", payload: newNote });
+    setNotes([...notes, newNote]);
+    setNoteInput("");
   };
 
   const editNote = (e) => {
     e.preventDefault();
-    dispatch({ type: "editNote" });
+    // on copie le tableau
+    const notesCopy = [...notes];
+    // on cherche la note à modifier
+    const note = notes.find((note) => note.id === selectedNoteId.id);
+    // on récupère l'index de la note
+    const noteIndex = notes.findIndex((note) => note.id === selectedNoteId.id);
+    // on modifie la note
+    let newNote = { ...note, title: noteInput };
+    // on remplace l'ancienne note par la nouvelle
+    notesCopy[noteIndex] = newNote;
+    // on met à jour le state
+    setNotes(notesCopy);
+    setNoteInput("");
+    setSelectedNoteId(null);
   };
 
   // delete note
   const deleteNote = (id) => {
-    dispatch({ type: "deleteNote", payload: id });
+    const newNotes = notes.filter((note) => note.id !== id);
+    setNotes(newNotes);
   };
 
   // Clear all notes
   const clearAll = () => {
-    dispatch({ type: "clearAll" });
-  };
-
-  const handleChange = (value) => {
-    // mettre à jour le formulaire
-    dispatch({ type: "changeInput", payload: value });
-  };
-
-  const handleTheme = (theme) => {
-    // mettre à jour le theme de l'application
-    dispatch({ type: "changeTheme", payload: theme });
-  };
-
-  const handleSelectedNoteId = (id) => {
-    dispatch({ type: "setSelectedNoteId", payload: id });
+    setNotes([]);
   };
 
   return (
-    <div style={{ ...state.theme, height: "100dvh" }}>
+    <div style={{ ...theme, height: "100dvh" }}>
       {/* Headerrr */}
       <div className="container py-3">
-        <Header setTheme={handleTheme} />
+        <Header setTheme={setTheme} />
         {/* noteForm  */}
         <div style={{ marginTop: "100px" }}>
           <NoteForm
-            noteInput={state.noteInput}
-            setNoteInput={handleChange}
-            selectedNoteId={state.selectedNoteId}
+            noteInput={noteInput}
+            setNoteInput={setNoteInput}
+            selectedNoteId={selectedNoteId}
             editNote={editNote}
             addNote={addNote}
           />
@@ -80,9 +73,9 @@ function App() {
 
         {/* notesContainer */}
         <NotesContainer
-          notes={state.notes}
-          setNoteInput={handleChange}
-          setSelectedNoteId={handleSelectedNoteId}
+          notes={notes}
+          setNoteInput={setNoteInput}
+          setSelectedNoteId={setSelectedNoteId}
           deleteNote={deleteNote}
           clearAll={clearAll}
         />
