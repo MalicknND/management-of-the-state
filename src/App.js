@@ -14,22 +14,27 @@ const initialState = {
   },
   noteInput: "",
   notes: [],
+  selectedNoteId: null,
 };
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-
+  console.log(state);
   const handleChange = (value) => {
     // mettre à jour le formulaire
     dispatch({ type: "changeInput", payload: value });
   };
 
   const [notes, setNotes] = useState([]);
-  const [selectedNoteId, setSelectedNoteId] = useState(null);
+  // const [selectedNoteId, setSelectedNoteId] = useState(null);
 
   const handleTheme = (theme) => {
     // mettre à jour le theme de l'application
     dispatch({ type: "changeTheme", payload: theme });
+  };
+
+  const handleSelectedNoteId = (id) => {
+    dispatch({ type: "setSelectedNoteId", payload: id });
   };
 
   const addNote = (e) => {
@@ -45,21 +50,7 @@ function App() {
 
   const editNote = (e) => {
     e.preventDefault();
-    // on copie le tableau
-    const notesCopy = [...notes];
-    // on cherche la note à modifier
-    const note = notes.find((note) => note.id === selectedNoteId.id);
-    // on récupère l'index de la note
-    const noteIndex = notes.findIndex((note) => note.id === selectedNoteId.id);
-    // on modifie la note
-    let newNote = { ...note, title: state.noteInput };
-    // on remplace l'ancienne note par la nouvelle
-    notesCopy[noteIndex] = newNote;
-    // on met à jour le state
-    setNotes(notesCopy);
-    // reset form
-    dispatch({ type: "resetInput" });
-    setSelectedNoteId(null);
+    dispatch({ type: "editNote" });
   };
 
   // delete note
@@ -83,7 +74,7 @@ function App() {
           <NoteForm
             noteInput={state.noteInput}
             setNoteInput={handleChange}
-            selectedNoteId={selectedNoteId}
+            selectedNoteId={state.selectedNoteId}
             editNote={editNote}
             addNote={addNote}
           />
@@ -93,7 +84,7 @@ function App() {
         <NotesContainer
           notes={state.notes}
           setNoteInput={handleChange}
-          setSelectedNoteId={setSelectedNoteId}
+          setSelectedNoteId={handleSelectedNoteId}
           deleteNote={deleteNote}
           clearAll={clearAll}
         />
