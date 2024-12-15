@@ -1,4 +1,6 @@
 import React from "react";
+import Input from "../Input/Input";
+import Button from "../Button/Button";
 
 const NoteForm = ({
   noteInput,
@@ -10,22 +12,14 @@ const NoteForm = ({
   return (
     <form className="py-4 px-3 bg-white rounded">
       <div className="d-flex gap-2">
-        <input
+        <Input
           value={noteInput}
-          onChange={(e) => setNoteInput(e.target.value)}
-          type="text"
-          className="form-control"
-          placeholder="Add note"
-          aria-label="note"
+          onInputChange={(e) => setNoteInput(e.target.value)}
         />
         {selectedNoteId ? (
-          <button onClick={editNote} className="btn btn-warning">
-            Update
-          </button>
+          <Button onClick={editNote} title="Edit" className="btn-warning" />
         ) : (
-          <button onClick={addNote} className="btn btn-success">
-            Add
-          </button>
+          <Button onClick={addNote} title="Add" className="btn-primary" />
         )}
       </div>
     </form>
