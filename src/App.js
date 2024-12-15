@@ -4,6 +4,7 @@ import { FaRegTrashCan } from "react-icons/fa6";
 
 import "./App.css";
 import { COLORS } from "./constants/colors";
+import Header from "./components/Header/Header";
 
 function App() {
   const [theme, setTheme] = useState({
@@ -59,113 +60,7 @@ function App() {
     <div style={{ ...theme, height: "100dvh" }}>
       {/* Headerrr */}
       <div className="container py-3">
-        <header className="bg-white d-flex justify-content-between align-items-center rounded p-3">
-          <h1 className="fs-5 fw-normal">Notes</h1>
-          <div className="d-flex gap-2">
-            <span
-              onClick={() => {
-                setTheme({
-                  backgroundColor: COLORS.gradientOne.color,
-                  backgroundImage: COLORS.gradientOne.image,
-                });
-              }}
-              style={{
-                cursor: "pointer",
-                display: "inline-block",
-                width: 25,
-                height: 25,
-                borderRadius: "50%",
-                backgroundColor: COLORS.gradientOne.color,
-                backgroundImage: COLORS.gradientOne.image,
-              }}
-            ></span>
-            <span
-              onClick={() => {
-                setTheme({
-                  backgroundColor: COLORS.gradientTwo.color,
-                  backgroundImage: COLORS.gradientTwo.image,
-                });
-              }}
-              style={{
-                cursor: "pointer",
-                display: "inline-block",
-                width: 25,
-                height: 25,
-                borderRadius: "50%",
-                backgroundColor: COLORS.gradientTwo.color,
-                backgroundImage: COLORS.gradientTwo.image,
-              }}
-            ></span>
-            <span
-              onClick={() => {
-                setTheme({
-                  backgroundColor: COLORS.gradientThree.color,
-                  backgroundImage: COLORS.gradientThree.image,
-                });
-              }}
-              style={{
-                cursor: "pointer",
-                display: "inline-block",
-                width: 25,
-                height: 25,
-                borderRadius: "50%",
-                backgroundColor: COLORS.gradientThree.color,
-                backgroundImage: COLORS.gradientThree.image,
-              }}
-            ></span>
-            <span
-              onClick={() => {
-                setTheme({
-                  backgroundColor: COLORS.gradientFour.color,
-                  backgroundImage: COLORS.gradientFour.image,
-                });
-              }}
-              style={{
-                cursor: "pointer",
-                display: "inline-block",
-                width: 25,
-                height: 25,
-                borderRadius: "50%",
-                backgroundColor: COLORS.gradientFour.color,
-                backgroundImage: COLORS.gradientFour.image,
-              }}
-            ></span>
-            <span
-              onClick={() => {
-                setTheme({
-                  backgroundColor: COLORS.gradientFive.color,
-                  backgroundImage: COLORS.gradientFive.image,
-                });
-              }}
-              style={{
-                cursor: "pointer",
-                display: "inline-block",
-                width: 25,
-                height: 25,
-                borderRadius: "50%",
-                backgroundColor: COLORS.gradientFive.color,
-                backgroundImage: COLORS.gradientFive.image,
-              }}
-            ></span>
-            <span
-              onClick={() => {
-                setTheme({
-                  backgroundColor: COLORS.gradientSix.color,
-                  backgroundImage: COLORS.gradientSix.image,
-                });
-              }}
-              style={{
-                cursor: "pointer",
-                display: "inline-block",
-                width: 25,
-                height: 25,
-                borderRadius: "50%",
-                backgroundColor: COLORS.gradientSix.color,
-                backgroundImage: COLORS.gradientSix.image,
-              }}
-            ></span>
-          </div>
-        </header>
+        <Header setTheme={setTheme} />
         {/* noteForm  */}
         <div style={{ marginTop: "100px" }}>
           <form className="py-4 px-3 bg-white rounded">
