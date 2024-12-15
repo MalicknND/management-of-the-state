@@ -1,70 +1,136 @@
-# Getting Started with Create React App
+# Gestion des États en React
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Ce projet a pour objectif d'apprendre et de comparer différentes approches pour gérer l'état dans une application React. Trois branches distinctes ont été créées pour explorer chaque méthode : `main` (useState), `useReducer`, et `context-api`.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Contenu des branches
 
-### `npm start`
+### 1. Branche `main` : **useState**
+La branche principale utilise le hook `useState` pour la gestion de l'état local.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+#### Points abordés :
+- Comprendre le fonctionnement de `useState`.
+- Manipuler des états simples et complexes.
+- Gérer les effets secondaires liés aux changements d'état avec `useEffect`.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+#### Exemple de code :
+```jsx
+const [count, setCount] = useState(0);
 
-### `npm test`
+const increment = () => {
+  setCount(count + 1);
+};
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+### 2. Branche `useReducer` : **useReducer**
+Dans cette branche, le hook `useReducer` est utilisé pour gérer des états plus complexes, souvent dans des cas où plusieurs états sont interconnectés.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### Points abordés :
+- Implémentation de `useReducer` avec une fonction réductrice (reducer).
+- Avantages de `useReducer` dans des applications où la logique de mise à jour de l'état est complexe.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### Exemple de code :
+```jsx
+const initialState = { count: 0 };
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+function reducer(state, action) {
+  switch (action.type) {
+    case 'increment':
+      return { count: state.count + 1 };
+    case 'decrement':
+      return { count: state.count - 1 };
+    default:
+      throw new Error();
+  }
+}
 
-### `npm run eject`
+const [state, dispatch] = useReducer(reducer, initialState);
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+const increment = () => {
+  dispatch({ type: 'increment' });
+};
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 3. Branche `context-api` : **Context API**
+Cette branche explore l'utilisation de l'API Context de React pour partager l'état globalement dans une application.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+#### Points abordés :
+- Création de contextes avec `React.createContext`.
+- Fourniture d'état global à travers le composant `Context.Provider`.
+- Consommation de l'état global avec le hook `useContext`.
 
-## Learn More
+#### Exemple de code :
+```jsx
+const CountContext = React.createContext();
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+function CountProvider({ children }) {
+  const [count, setCount] = useState(0);
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  return (
+    <CountContext.Provider value={{ count, setCount }}>
+      {children}
+    </CountContext.Provider>
+  );
+}
 
-### Code Splitting
+function Counter() {
+  const { count, setCount } = useContext(CountContext);
+  
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+## Comment naviguer entre les branches
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+1. **Cloner le projet :**
+```bash
+git clone <url-du-repo>
+```
 
-### Making a Progressive Web App
+2. **Changer de branche :**
+```bash
+# Branche main (useState)
+git checkout main
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+# Branche useReducer
+git checkout useReducer
 
-### Advanced Configuration
+# Branche context-api
+git checkout context-api
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+---
 
-### Deployment
+## Objectifs d'apprentissage
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- Comprendre les cas d'utilisation pour `useState`, `useReducer` et Context API.
+- Savoir choisir la méthode de gestion d'état appropriée selon la complexité de l'application.
+- Appliquer les principes de React pour maintenir un code lisible et performant.
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Contribution
+
+Si vous avez des idées d'amélioration ou des suggestions, n'hésitez pas à ouvrir une pull request ou à soumettre une issue dans le dépôt GitHub.
+
+---
+
+## Ressources utiles
+
+- [Documentation officielle de React](https://reactjs.org/docs/)
+- [useState](https://reactjs.org/docs/hooks-state.html)
+- [useReducer](https://reactjs.org/docs/hooks-reference.html#usereducer)
+- [Context API](https://reactjs.org/docs/context.html)
+
