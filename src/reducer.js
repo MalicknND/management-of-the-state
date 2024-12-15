@@ -37,6 +37,15 @@ export const reducer = (state, action) => {
         noteInput: "",
         selectedNoteId: null,
       };
+    case "deleteNote":
+      return {
+        ...state,
+        notes: state.notes.filter((note) => note.id !== action.payload),
+        selectedNoteId: null,
+      };
+    case "clearAll":
+      return { ...state, notes: [] };
+
     default:
       throw new Error();
   }

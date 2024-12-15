@@ -1,4 +1,4 @@
-import { useReducer, useState } from "react";
+import { useReducer } from "react";
 
 import { COLORS } from "./constants/colors";
 import Header from "./components/Header/Header";
@@ -20,23 +20,8 @@ const initialState = {
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   console.log(state);
-  const handleChange = (value) => {
-    // mettre à jour le formulaire
-    dispatch({ type: "changeInput", payload: value });
-  };
 
-  const [notes, setNotes] = useState([]);
-  // const [selectedNoteId, setSelectedNoteId] = useState(null);
-
-  const handleTheme = (theme) => {
-    // mettre à jour le theme de l'application
-    dispatch({ type: "changeTheme", payload: theme });
-  };
-
-  const handleSelectedNoteId = (id) => {
-    dispatch({ type: "setSelectedNoteId", payload: id });
-  };
-
+  // CRUD Notes
   const addNote = (e) => {
     e.preventDefault();
     let newNote = {
@@ -55,13 +40,26 @@ function App() {
 
   // delete note
   const deleteNote = (id) => {
-    const newNotes = notes.filter((note) => note.id !== id);
-    setNotes(newNotes);
+    dispatch({ type: "deleteNote", payload: id });
   };
 
   // Clear all notes
   const clearAll = () => {
-    setNotes([]);
+    dispatch({ type: "clearAll" });
+  };
+
+  const handleChange = (value) => {
+    // mettre à jour le formulaire
+    dispatch({ type: "changeInput", payload: value });
+  };
+
+  const handleTheme = (theme) => {
+    // mettre à jour le theme de l'application
+    dispatch({ type: "changeTheme", payload: theme });
+  };
+
+  const handleSelectedNoteId = (id) => {
+    dispatch({ type: "setSelectedNoteId", payload: id });
   };
 
   return (
