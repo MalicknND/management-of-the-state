@@ -5,6 +5,7 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import "./App.css";
 import { COLORS } from "./constants/colors";
 import Header from "./components/Header/Header";
+import NoteForm from "./components/NoteForm";
 
 function App() {
   const [theme, setTheme] = useState({
@@ -63,27 +64,13 @@ function App() {
         <Header setTheme={setTheme} />
         {/* noteForm  */}
         <div style={{ marginTop: "100px" }}>
-          <form className="py-4 px-3 bg-white rounded">
-            <div className="d-flex gap-2">
-              <input
-                value={noteInput}
-                onChange={(e) => setNoteInput(e.target.value)}
-                type="text"
-                className="form-control"
-                placeholder="Add note"
-                aria-label="note"
-              />
-              {selectedNoteId ? (
-                <button onClick={editNote} className="btn btn-warning">
-                  Update
-                </button>
-              ) : (
-                <button onClick={addNote} className="btn btn-success">
-                  Add
-                </button>
-              )}
-            </div>
-          </form>
+          <NoteForm
+            noteInput={noteInput}
+            setNoteInput={setNoteInput}
+            selectedNoteId={selectedNoteId}
+            editNote={editNote}
+            addNote={addNote}
+          />
         </div>
 
         {/* notesContainer */}

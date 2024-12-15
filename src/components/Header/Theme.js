@@ -1,5 +1,4 @@
 import React from "react";
-import { COLORS } from "../../constants/colors";
 
 const Theme = ({ setTheme, bgColor, bgImage }) => {
   return (
