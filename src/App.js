@@ -13,6 +13,7 @@ const initialState = {
     backgroundImage: COLORS.gradientOne.image,
   },
   noteInput: "",
+  notes: [],
 };
 
 function App() {
@@ -24,7 +25,6 @@ function App() {
   };
 
   const [notes, setNotes] = useState([]);
-  const [noteInput, setNoteInput] = useState("");
   const [selectedNoteId, setSelectedNoteId] = useState(null);
 
   const handleTheme = (theme) => {
@@ -39,9 +39,8 @@ function App() {
       title: state.noteInput,
       date: Date.now(),
     };
-    setNotes([...notes, newNote]);
-    // reset form
-    dispatch({ type: "resetInput" });
+    // ajouter la note au tableau
+    dispatch({ type: "addNote", payload: newNote });
   };
 
   const editNote = (e) => {
@@ -58,7 +57,8 @@ function App() {
     notesCopy[noteIndex] = newNote;
     // on met à jour le state
     setNotes(notesCopy);
-    setNoteInput("");
+    // reset form
+    dispatch({ type: "resetInput" });
     setSelectedNoteId(null);
   };
 
@@ -91,7 +91,7 @@ function App() {
 
         {/* notesContainer */}
         <NotesContainer
-          notes={notes}
+          notes={state.notes}
           setNoteInput={handleChange}
           setSelectedNoteId={setSelectedNoteId}
           deleteNote={deleteNote}

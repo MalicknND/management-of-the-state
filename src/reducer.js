@@ -7,6 +7,12 @@ export const reducer = (state, action) => {
       return { ...state, noteInput: action.payload };
     case "resetInput":
       return { ...state, noteInput: "" };
+    case "addNote":
+      return {
+        ...state,
+        notes: [...state.notes, action.payload],
+        noteInput: "",
+      };
     default:
       throw new Error();
   }
