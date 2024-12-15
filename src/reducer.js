@@ -3,6 +3,10 @@ export const reducer = (state, action) => {
   switch (action.type) {
     case "changeTheme":
       return { ...state, theme: action.payload };
+    case "changeInput":
+      return { ...state, noteInput: action.payload };
+    case "resetInput":
+      return { ...state, noteInput: "" };
     default:
       throw new Error();
   }

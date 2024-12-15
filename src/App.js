@@ -12,10 +12,16 @@ const initialState = {
     backgroundColor: COLORS.gradientOne.color,
     backgroundImage: COLORS.gradientOne.image,
   },
+  noteInput: "",
 };
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  const handleChange = (value) => {
+    // mettre à jour le formulaire
+    dispatch({ type: "changeInput", payload: value });
+  };
 
   const [notes, setNotes] = useState([]);
   const [noteInput, setNoteInput] = useState("");
@@ -30,11 +36,12 @@ function App() {
     e.preventDefault();
     let newNote = {
       id: Math.floor(Math.random() * 1000),
-      title: noteInput,
+      title: state.noteInput,
       date: Date.now(),
     };
     setNotes([...notes, newNote]);
-    setNoteInput("");
+    // reset form
+    dispatch({ type: "resetInput" });
   };
 
   const editNote = (e) => {
@@ -46,7 +53,7 @@ function App() {
     // on récupère l'index de la note
     const noteIndex = notes.findIndex((note) => note.id === selectedNoteId.id);
     // on modifie la note
-    let newNote = { ...note, title: noteInput };
+    let newNote = { ...note, title: state.noteInput };
     // on remplace l'ancienne note par la nouvelle
     notesCopy[noteIndex] = newNote;
     // on met à jour le state
@@ -74,8 +81,8 @@ function App() {
         {/* noteForm  */}
         <div style={{ marginTop: "100px" }}>
           <NoteForm
-            noteInput={noteInput}
-            setNoteInput={setNoteInput}
+            noteInput={state.noteInput}
+            setNoteInput={handleChange}
             selectedNoteId={selectedNoteId}
             editNote={editNote}
             addNote={addNote}
@@ -85,7 +92,7 @@ function App() {
         {/* notesContainer */}
         <NotesContainer
           notes={notes}
-          setNoteInput={setNoteInput}
+          setNoteInput={handleChange}
           setSelectedNoteId={setSelectedNoteId}
           deleteNote={deleteNote}
           clearAll={clearAll}
