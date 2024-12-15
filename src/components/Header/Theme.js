@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
+import { NoteContext } from "../context/NoteContextProvider";
 
-const Theme = ({ setTheme, bgColor, bgImage }) => {
+const Theme = ({ bgColor, bgImage }) => {
+  const { setTheme } = useContext(NoteContext);
   return (
     <span
       onClick={() => {
