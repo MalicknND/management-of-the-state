@@ -1,14 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import Input from "../Input/Input";
 import Button from "../Button/Button";
+import { NoteContext } from "../context/NoteContextProvider";
 
-const NoteForm = ({
-  noteInput,
-  setNoteInput,
-  selectedNoteId,
-  editNote,
-  addNote,
-}) => {
+const NoteForm = () => {
+  const { noteInput, setNoteInput, addNote, selectedNoteId, editNote } =
+    useContext(NoteContext);
   return (
     <form className="py-4 px-3 bg-white rounded">
       <div className="d-flex gap-2">
