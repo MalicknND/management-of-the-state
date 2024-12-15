@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 import Button from "../Button/Button";
 import { NoteContext } from "../context/NoteContextProvider";
 
-const NotesHeader = ({ clearAll }) => {
-  const { notes } = useContext(NoteContext);
+const NotesHeader = () => {
+  const { notes, clearAll } = useContext(NoteContext);
   return (
     <div className="d-flex justify-content-between border-bottom py-3">
       <div className="d-flex gap-2">

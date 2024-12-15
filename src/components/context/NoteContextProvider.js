@@ -41,6 +41,17 @@ export const NoteContextProvider = ({ children }) => {
     setSelectedNoteId(null);
   };
 
+  // delete note
+  const deleteNote = (id) => {
+    const newNotes = notes.filter((note) => note.id !== id);
+    setNotes(newNotes);
+  };
+
+  // Clear all notes
+  const clearAll = () => {
+    setNotes([]);
+  };
+
   const value = {
     theme,
     setTheme,
@@ -52,6 +63,8 @@ export const NoteContextProvider = ({ children }) => {
     editNote,
     selectedNoteId,
     setSelectedNoteId,
+    deleteNote,
+    clearAll,
   };
   return <NoteContext.Provider value={value}>{children}</NoteContext.Provider>;
 };

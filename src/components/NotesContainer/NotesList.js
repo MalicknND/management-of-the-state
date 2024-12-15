@@ -4,8 +4,9 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import { NoteContext } from "../context/NoteContextProvider";
 
 // un seul item
-const NoteItem = ({ deleteNote, note }) => {
-  const { setSelectedNoteId, setNoteInput } = useContext(NoteContext);
+const NoteItem = ({ note }) => {
+  const { setSelectedNoteId, setNoteInput, deleteNote } =
+    useContext(NoteContext);
   return (
     <div
       className="p-3 rounded border-5 border-start border-primary"
@@ -41,12 +42,12 @@ const NoteItem = ({ deleteNote, note }) => {
 };
 
 // liste des notes
-const NotesList = ({ deleteNote }) => {
+const NotesList = () => {
   const { notes } = useContext(NoteContext);
   return (
     <div className="mt-3 d-flex flex-wrap gap-2">
       {notes.map((note, index) => {
-        return <NoteItem key={index} note={note} deleteNote={deleteNote} />;
+        return <NoteItem key={index} note={note} />;
       })}
     </div>
   );
