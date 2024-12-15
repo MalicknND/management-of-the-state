@@ -1,19 +1,30 @@
-import { useState } from "react";
+import { useReducer, useState } from "react";
 
 import { COLORS } from "./constants/colors";
 import Header from "./components/Header/Header";
 import NoteForm from "./components/NoteForm";
 import NotesContainer from "./components/NotesContainer/NotesContainer";
+import { reducer } from "./reducer";
 
-function App() {
-  const [theme, setTheme] = useState({
+// initial state
+const initialState = {
+  theme: {
     backgroundColor: COLORS.gradientOne.color,
     backgroundImage: COLORS.gradientOne.image,
-  });
+  },
+};
+
+function App() {
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const [notes, setNotes] = useState([]);
   const [noteInput, setNoteInput] = useState("");
   const [selectedNoteId, setSelectedNoteId] = useState(null);
+
+  const handleTheme = (theme) => {
+    // mettre à jour le theme de l'application
+    dispatch({ type: "changeTheme", payload: theme });
+  };
 
   const addNote = (e) => {
     e.preventDefault();
@@ -56,10 +67,10 @@ function App() {
   };
 
   return (
-    <div style={{ ...theme, height: "100dvh" }}>
+    <div style={{ ...state.theme, height: "100dvh" }}>
       {/* Headerrr */}
       <div className="container py-3">
-        <Header setTheme={setTheme} />
+        <Header setTheme={handleTheme} />
         {/* noteForm  */}
         <div style={{ marginTop: "100px" }}>
           <NoteForm
